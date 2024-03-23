@@ -25,8 +25,8 @@ public class NoteListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
-        fab = findViewById(R.id.floatingActionButton);
-        recyclerview = findViewById(R.id.recycleview);
+        fab = findViewById(R.id.fabAddNote);
+        recyclerview = findViewById(R.id.rvNotes);
 
         CustomAdapter c = new CustomAdapter(arr);
         recyclerview.setAdapter(c);

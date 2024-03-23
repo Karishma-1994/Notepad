@@ -17,7 +17,7 @@ Button but;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_details);
-        but= findViewById(R.id.savenote);
+        but= findViewById(R.id.btnSave);
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
