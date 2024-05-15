@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Notepad</string>
+
+    <string name="create_note">Create Note</string>
+    <string name="view_note">View Note</string>
+    <string name="edit_note">Edit Note</string>
 </resources>

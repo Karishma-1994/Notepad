@@ -4,19 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".NoteDetailsActivity">
+
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 
     <EditText
         android:id="@+id/edtTitle"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Title"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="55dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="55dp" />
 
     <EditText
         android:id="@+id/edtDetail"
@@ -33,17 +46,5 @@
         app:layout_constraintTop_toBottomOf="@id/edtTitle"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="88dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="304dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="19dp"
-        android:text="Save"
-        app:layout_constraintBottom_toTopOf="@+id/edtTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

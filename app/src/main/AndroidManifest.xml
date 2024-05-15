@@ -18,7 +18,7 @@
 <!--        android:label="Write your notes"-->
 <!--        android:parentActivityName=".MainActivity"-->
         <activity
-            android:name=".NoteListActivity"
+            android:name=".list.NoteListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
