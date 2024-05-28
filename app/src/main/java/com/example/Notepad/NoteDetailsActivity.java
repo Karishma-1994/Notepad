@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.Notepad.list.NoteListActivity;
 
 public class NoteDetailsActivity extends AppCompatActivity {
     EditText edtTitle, edtDetail;
@@ -30,6 +28,8 @@ public class NoteDetailsActivity extends AppCompatActivity {
     public static String ID_KEY = "id";
 
     private ViewState viewState = ViewState.CREATE;
+
+    private NoteModel noteModel;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -52,7 +52,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
         clickedId = getIntent().getIntExtra(ID_KEY, 0);
 
         if (clickedId > 0) {
-            viewState = ViewState.VIEW;
+            noteModel = db.get(clickedId);
             setDataOnViewFromId();
         }
 
@@ -113,12 +113,11 @@ public class NoteDetailsActivity extends AppCompatActivity {
     }
 
     private void setDataOnViewFromId() {
-        NoteModel noteModel = db.get(clickedId);
+        changeViewState(ViewState.VIEW);
         clViewLayout.setVisibility(View.VISIBLE);
         clEditLayout.setVisibility(View.GONE);
         viewTitle.setText(noteModel.getTitle());
         viewDetail.setText(noteModel.getContent());
-
     }
 
     private void deleteClicked() {
@@ -127,6 +126,10 @@ public class NoteDetailsActivity extends AppCompatActivity {
 
     private void editClicked() {
         changeViewState(ViewState.EDIT);
+        clViewLayout.setVisibility(View.GONE);
+        clEditLayout.setVisibility(View.VISIBLE);
+        edtTitle.setText(noteModel.getTitle());
+        edtDetail.setText(noteModel.getContent());
     }
 
     private void changeViewState(ViewState viewState) {
