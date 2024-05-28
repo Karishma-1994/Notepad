@@ -57,8 +57,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         } else {
             Toast.makeText(context, "Added Successfully", Toast.LENGTH_SHORT).show();
         }
-//        db.close();
+        db.close();
     }
+
 
     public List<NoteModel> getAll() {
         List<NoteModel> returnList = new ArrayList<>();
@@ -76,7 +77,36 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext());
         }
         cursor.close();
-//        db.close();
+        db.close();
         return returnList;
+    }
+
+    public boolean deleteNote(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String delnote = "DELETE  FROM " + NOTEKAR_TABLE + " WHERE " + ID + " = " + id;
+        Cursor cursor = db.rawQuery(delnote, null);
+        if (cursor.moveToFirst()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public NoteModel get(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String getNote = "SELECT * FROM " + NOTEKAR_TABLE + " WHERE " + ID + " = " + id;
+        Cursor cursor = db.rawQuery(getNote, null);
+        if (cursor.moveToFirst()) {
+            int noteID = cursor.getInt(0);
+            String title = cursor.getString(1);
+            String content = cursor.getString(2);
+            cursor.close();
+            db.close();
+            return new NoteModel(noteID, title, content);
+        } else {
+            db.close();
+            return null;
+        }
     }
 }

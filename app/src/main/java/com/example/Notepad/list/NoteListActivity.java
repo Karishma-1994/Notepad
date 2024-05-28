@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.Notepad.DataBaseHelper;
 import com.example.Notepad.NoteDetailsActivity;
+import com.example.Notepad.NoteListAdapter2;
 import com.example.Notepad.NoteModel;
 import com.example.Notepad.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,9 +25,7 @@ public class NoteListActivity extends AppCompatActivity {
     FloatingActionButton fab;
     RecyclerView recyclerview;
     DataBaseHelper dataBaseHelper;
-
     ArrayAdapter arrayAdapter;
-    String arr[] = {};
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -36,12 +35,13 @@ public class NoteListActivity extends AppCompatActivity {
         fab = findViewById(R.id.fabAddNote);
         recyclerview = findViewById(R.id.rvNotes);
 //        showNoteRV();
-        NoteListAdapter c = new NoteListAdapter(arr);
-        recyclerview.setAdapter(c);
+        NoteListAdapter2 noteListAdapter = new NoteListAdapter2();
+        recyclerview.setAdapter(noteListAdapter);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         dataBaseHelper = new DataBaseHelper(this);
 
         List<NoteModel> noteList = dataBaseHelper.getAll();
+        noteListAdapter.setNoteList(noteList);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,12 +53,12 @@ public class NoteListActivity extends AppCompatActivity {
 
     }
 
-    private void showNoteRV(){
-        List<NoteModel> everynote = dataBaseHelper.getAll();
-        NoteListAdapter noteListAdapter = new NoteListAdapter();
-        arrayAdapter = new ArrayAdapter<NoteModel>(NoteListActivity.this,R.layout.layoutfile,dataBaseHelper.getAll());
-        recyclerview.setAdapter(noteListAdapter);
+//    private void showNoteRV() {
+//        List<NoteModel> everynote = dataBaseHelper.getAll();
+//        NoteListAdapter noteListAdapter = new NoteListAdapter();
+//        arrayAdapter = new ArrayAdapter<NoteModel>(NoteListActivity.this, R.layout.layoutfile, dataBaseHelper.getAll());
+//        recyclerview.setAdapter(noteListAdapter);
 
 
-    }
+//    }
 }
