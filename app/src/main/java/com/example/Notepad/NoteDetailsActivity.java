@@ -6,12 +6,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.Notepad.list.NoteListActivity;
 
 
 public class NoteDetailsActivity extends AppCompatActivity {
@@ -60,6 +64,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(getString(R.string.create_note));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 
     }
@@ -121,6 +126,10 @@ public class NoteDetailsActivity extends AppCompatActivity {
     }
 
     private void deleteClicked() {
+        changeViewState(ViewState.VIEW);
+        Toast.makeText(NoteDetailsActivity.this, "Deleted the course", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(NoteDetailsActivity.this, NoteListActivity.class);
+        startActivity(i);
 
     }
 
@@ -140,7 +149,14 @@ public class NoteDetailsActivity extends AppCompatActivity {
     private void saveClicked() {
         String title = edtTitle.getText().toString().trim();
         String detail = edtDetail.getText().toString().trim();
-        db.addNote(title, detail);
+        Intent i = new Intent(NoteDetailsActivity.this, NoteListActivity.class);
+        startActivity(i);
+        if (title.isEmpty() || detail.isEmpty()) {
+            Toast.makeText(this, "title or detail cannot be empty", Toast.LENGTH_SHORT).show();
+        } else {
+
+            db.addNote(title, detail);
+        }
     }
 
     private enum ViewState {
