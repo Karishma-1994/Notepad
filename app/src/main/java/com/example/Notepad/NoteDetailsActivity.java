@@ -65,8 +65,6 @@ public class NoteDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getString(R.string.create_note));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
     }
 
     @Override
@@ -86,6 +84,8 @@ public class NoteDetailsActivity extends AppCompatActivity {
             }
             case EDIT: {
                 menu.findItem(R.id.menu_save).setVisible(true);
+                {
+                }
                 menu.findItem(R.id.menu_delete).setVisible(true);
                 menu.findItem(R.id.menu_edit).setVisible(false);
                 break;
@@ -154,8 +154,11 @@ public class NoteDetailsActivity extends AppCompatActivity {
         if (title.isEmpty() || detail.isEmpty()) {
             Toast.makeText(this, "title or detail cannot be empty", Toast.LENGTH_SHORT).show();
         } else {
-
-            db.addNote(title, detail);
+            if (viewState == ViewState.EDIT && noteModel != null) {
+                db.updateNote(title, detail, String.valueOf(noteModel.getId()));
+            } else {
+                db.addNote(title, detail);
+            }
         }
     }
 

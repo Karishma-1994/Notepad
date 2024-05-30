@@ -60,6 +60,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    void updateNote(String title, String content, String id) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(TITLE, title);
+        cv.put(CONTENT, content);
+
+        int updatedCount = db.update(NOTEKAR_TABLE, cv, ID + " = ?", new String[]{id});
+        if (updatedCount > 0) {
+            Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
+        }
+
+        db.close();
+    }
+
 
     public List<NoteModel> getAll() {
         List<NoteModel> returnList = new ArrayList<>();
@@ -89,7 +105,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return true;
         } else {
             return false;
-            
+
         }
 
     }
