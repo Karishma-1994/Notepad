@@ -57,7 +57,7 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.Note
             setClickListener();
         }
 
-        public void setClickListener(){
+        public void setClickListener() {
             tvLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

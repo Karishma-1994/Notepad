@@ -107,10 +107,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return false;
 
         }
-
     }
 
-    public NoteModel get(int id) {
+
+//    public void deleteNote(String id) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        int rowDeleted = db.delete(NOTEKAR_TABLE, id + " =?", new String[]{id});
+//        if (rowDeleted != 0) {
+//            Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(context, "Delete Failed", Toast.LENGTH_SHORT).show();
+//        }
+//        db.close();
+//
+//    }
+
+
+
+        public NoteModel get(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String getNote = "SELECT * FROM " + NOTEKAR_TABLE + " WHERE " + ID + " = " + id;
         Cursor cursor = db.rawQuery(getNote, null);

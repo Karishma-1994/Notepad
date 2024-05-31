@@ -84,8 +84,6 @@ public class NoteDetailsActivity extends AppCompatActivity {
             }
             case EDIT: {
                 menu.findItem(R.id.menu_save).setVisible(true);
-                {
-                }
                 menu.findItem(R.id.menu_delete).setVisible(true);
                 menu.findItem(R.id.menu_edit).setVisible(false);
                 break;
@@ -126,10 +124,10 @@ public class NoteDetailsActivity extends AppCompatActivity {
     }
 
     private void deleteClicked() {
-        changeViewState(ViewState.VIEW);
-        Toast.makeText(NoteDetailsActivity.this, "Deleted the course", Toast.LENGTH_SHORT).show();
+        db.deleteNote(String.valueOf(noteModel.getId()));
         Intent i = new Intent(NoteDetailsActivity.this, NoteListActivity.class);
         startActivity(i);
+        Toast.makeText(this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
 
     }
 
