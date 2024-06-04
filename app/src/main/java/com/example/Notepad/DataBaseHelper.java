@@ -22,6 +22,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String TITLE = "title";
     private static final String CONTENT = "content";
     private Context context;
+    private NoteListAdapter2 noteListAdapter2;
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, dbName, null, dbVersion);
@@ -72,10 +73,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         } else {
             Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
         }
-
         db.close();
     }
-
+//    List<String> noteList = new ArrayList<>();
+//    public void updateItem(int position, String newItem) {
+//        noteList.set(position, newItem);
+//        // Notify the adapter that the item at 'position' has changed
+//        noteListAdapter2.notifyItemChanged(position);
+//    }
+//
 
     public List<NoteModel> getAll() {
         List<NoteModel> returnList = new ArrayList<>();
@@ -97,34 +103,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return returnList;
     }
 
-    public boolean deleteNote(String id) {
+    public int deleteNote(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String delnote = "DELETE  FROM " + NOTEKAR_TABLE + " WHERE " + ID + " = " + id;
-        Cursor cursor = db.rawQuery(delnote, null);
-        if (cursor.moveToFirst()) {
-            return true;
-        } else {
-            return false;
-
-        }
+        return db.delete(NOTEKAR_TABLE,ID + " = ?", new String[]{id});
     }
 
-
-//    public void deleteNote(String id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        int rowDeleted = db.delete(NOTEKAR_TABLE, id + " =?", new String[]{id});
-//        if (rowDeleted != 0) {
-//            Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(context, "Delete Failed", Toast.LENGTH_SHORT).show();
-//        }
-//        db.close();
-//
-//    }
-
-
-
-        public NoteModel get(int id) {
+    public NoteModel get(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String getNote = "SELECT * FROM " + NOTEKAR_TABLE + " WHERE " + ID + " = " + id;
         Cursor cursor = db.rawQuery(getNote, null);
@@ -140,6 +124,4 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return null;
         }
     }
-
-
 }

@@ -3,14 +3,20 @@ package com.example.Notepad;
 import static com.example.Notepad.NoteDetailsActivity.ID_KEY;
 
 import android.content.Intent;
+import android.text.Layout;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.Notepad.databinding.LayoutfileBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +28,8 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.Note
     @NonNull
     @Override
     public NoteListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layoutfile, parent, false);
-        return new NoteListViewHolder(view);
+        LayoutfileBinding binding = LayoutfileBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new NoteListViewHolder(binding);
     }
 
     @Override
@@ -44,21 +49,16 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.Note
 
     class NoteListViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvTitle;
-        private TextView tvContent;
-        private ConstraintLayout tvLayout;
+        private LayoutfileBinding binding;
 
-        public NoteListViewHolder(@NonNull View view) {
-            super(view);
-            tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-            tvContent = (TextView) view.findViewById(R.id.tvContent);
-            tvLayout = view.findViewById(R.id.tvLayout);
-
+        public NoteListViewHolder(@NonNull LayoutfileBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
             setClickListener();
         }
 
         public void setClickListener() {
-            tvLayout.setOnClickListener(new View.OnClickListener() {
+            binding.tvLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
@@ -67,11 +67,14 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.Note
                     v.getContext().startActivity(in);
                 }
             });
+
         }
 
+
         public void bind(NoteModel noteModel) {
-            tvTitle.setText(noteModel.getTitle());
-            tvContent.setText(noteModel.getContent());
+            binding.tvTitle.setText(noteModel.getTitle());
+            binding.tvContent.setText(noteModel.getContent());
         }
+
     }
 }

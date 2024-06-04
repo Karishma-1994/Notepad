@@ -1,6 +1,8 @@
 package com.example.Notepad;
 
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,17 +17,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.Notepad.databinding.ActivityNoteDetailsBinding;
+import com.example.Notepad.databinding.ActivityNoteListBinding;
 import com.example.Notepad.list.NoteListActivity;
 
 
 public class NoteDetailsActivity extends AppCompatActivity {
-    EditText edtTitle, edtDetail;
-    Toolbar toolbar;
+
+
     DataBaseHelper db;
-
-    TextView viewTitle, viewDetail;
-
-    ConstraintLayout clViewLayout, clEditLayout;
 
     private int clickedId;
 
@@ -34,22 +34,16 @@ public class NoteDetailsActivity extends AppCompatActivity {
     private ViewState viewState = ViewState.CREATE;
 
     private NoteModel noteModel;
+    ActivityNoteDetailsBinding binding;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note_details);
-        toolbar = findViewById(R.id.toolbar);
+        binding = ActivityNoteDetailsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        edtTitle = findViewById(R.id.edtTitle);
-        edtDetail = findViewById(R.id.edtDetail);
-
-        viewTitle = findViewById(R.id.viewTitle);
-        viewDetail = findViewById(R.id.viewDetail);
-
-        clViewLayout = findViewById(R.id.cl_view_layout);
-        clEditLayout = findViewById(R.id.cl_edit_layout);
 
         db = new DataBaseHelper(this);
 
@@ -60,7 +54,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
             setDataOnViewFromId();
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar.toolbar);
 
         getSupportActionBar().setTitle(getString(R.string.create_note));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -117,26 +111,26 @@ public class NoteDetailsActivity extends AppCompatActivity {
 
     private void setDataOnViewFromId() {
         changeViewState(ViewState.VIEW);
-        clViewLayout.setVisibility(View.VISIBLE);
-        clEditLayout.setVisibility(View.GONE);
-        viewTitle.setText(noteModel.getTitle());
-        viewDetail.setText(noteModel.getContent());
+       binding.clViewLayout.getRoot().setVisibility(View.VISIBLE);
+        binding.clEditLayout.getRoot().setVisibility(View.GONE);
+        binding.clViewLayout.viewTitle.setText(noteModel.getTitle());
+        binding.clViewLayout.viewDetail.setText(noteModel.getContent());
     }
 
     private void deleteClicked() {
         db.deleteNote(String.valueOf(noteModel.getId()));
-        Intent i = new Intent(NoteDetailsActivity.this, NoteListActivity.class);
-        startActivity(i);
         Toast.makeText(this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
 
+        finish();
     }
+
 
     private void editClicked() {
         changeViewState(ViewState.EDIT);
-        clViewLayout.setVisibility(View.GONE);
-        clEditLayout.setVisibility(View.VISIBLE);
-        edtTitle.setText(noteModel.getTitle());
-        edtDetail.setText(noteModel.getContent());
+        binding.clViewLayout.getRoot().setVisibility(View.GONE);
+        binding.clEditLayout.getRoot().setVisibility(View.VISIBLE);
+        binding.clEditLayout.edtTitle.setText(noteModel.getTitle());
+        binding.clEditLayout.edtDetail.setText(noteModel.getContent());
     }
 
     private void changeViewState(ViewState viewState) {
@@ -145,10 +139,8 @@ public class NoteDetailsActivity extends AppCompatActivity {
     }
 
     private void saveClicked() {
-        String title = edtTitle.getText().toString().trim();
-        String detail = edtDetail.getText().toString().trim();
-        Intent i = new Intent(NoteDetailsActivity.this, NoteListActivity.class);
-        startActivity(i);
+        String title = binding.clEditLayout.edtTitle.getText().toString().trim();
+        String detail = binding.clEditLayout.edtDetail.getText().toString().trim();
         if (title.isEmpty() || detail.isEmpty()) {
             Toast.makeText(this, "title or detail cannot be empty", Toast.LENGTH_SHORT).show();
         } else {
@@ -157,8 +149,10 @@ public class NoteDetailsActivity extends AppCompatActivity {
             } else {
                 db.addNote(title, detail);
             }
+            finish();
         }
     }
+
 
     private enum ViewState {
         CREATE,

@@ -12,23 +12,23 @@
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:background="#FFFFFF"
-        android:backgroundTint="#5C947C"
         android:gravity="center_vertical"
         android:text="TextView"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#FFFFFF"
-        android:backgroundTint="#5C947C"
         android:gravity="center_vertical"
         android:text="TextView"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
