@@ -1,25 +1,18 @@
 package com.example.Notepad;
 
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.Notepad.databinding.ActivityNoteDetailsBinding;
-import com.example.Notepad.databinding.ActivityNoteListBinding;
-import com.example.Notepad.list.NoteListActivity;
 
 
 public class NoteDetailsActivity extends AppCompatActivity {
@@ -111,7 +104,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
 
     private void setDataOnViewFromId() {
         changeViewState(ViewState.VIEW);
-       binding.clViewLayout.getRoot().setVisibility(View.VISIBLE);
+        binding.clViewLayout.getRoot().setVisibility(View.VISIBLE);
         binding.clEditLayout.getRoot().setVisibility(View.GONE);
         binding.clViewLayout.viewTitle.setText(noteModel.getTitle());
         binding.clViewLayout.viewDetail.setText(noteModel.getContent());
@@ -120,8 +113,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
     private void deleteClicked() {
         db.deleteNote(String.valueOf(noteModel.getId()));
         Toast.makeText(this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-
-        finish();
+        returnSuccessResult();
     }
 
 
@@ -141,7 +133,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
     private void saveClicked() {
         String title = binding.clEditLayout.edtTitle.getText().toString().trim();
         String detail = binding.clEditLayout.edtDetail.getText().toString().trim();
-        if (title.isEmpty() || detail.isEmpty()) {
+        if (title.isEmpty() && detail.isEmpty()) {
             Toast.makeText(this, "title or detail cannot be empty", Toast.LENGTH_SHORT).show();
         } else {
             if (viewState == ViewState.EDIT && noteModel != null) {
@@ -149,8 +141,14 @@ public class NoteDetailsActivity extends AppCompatActivity {
             } else {
                 db.addNote(title, detail);
             }
-            finish();
+            returnSuccessResult();
         }
+    }
+
+    private void returnSuccessResult() {
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 
 

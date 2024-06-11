@@ -5,12 +5,15 @@ public class NoteModel {
     private int id;
     private String title;
     private String content;
+    private boolean isChecked = false;
 
     public NoteModel(int id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
+
     }
+
 
     public int getId() {
         return id;
@@ -36,12 +39,21 @@ public class NoteModel {
         this.content = content;
     }
 
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
     @Override
     public String toString() {
         return "NoteModel{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", isChecked=" + isChecked +
                 '}';
     }
 }

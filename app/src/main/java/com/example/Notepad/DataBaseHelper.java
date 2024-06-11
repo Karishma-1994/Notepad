@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,7 +23,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String TITLE = "title";
     private static final String CONTENT = "content";
     private Context context;
-    private NoteListAdapter2 noteListAdapter2;
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, dbName, null, dbVersion);
@@ -105,7 +105,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public int deleteNote(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(NOTEKAR_TABLE,ID + " = ?", new String[]{id});
+        return db.delete(NOTEKAR_TABLE, ID + " = ?", new String[]{id});
+    }
+
+    public void deleteNote(List<String> ids) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String id = TextUtils.join(",", ids);
+        db.execSQL(String.format("DELETE FROM "+ NOTEKAR_TABLE+" WHERE "+ ID +" IN ("+id+")"));
+        db.close();
     }
 
     public NoteModel get(int id) {
